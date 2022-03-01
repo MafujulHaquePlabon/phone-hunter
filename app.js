@@ -1,19 +1,22 @@
+/* -------------------------phone search area-------------------------- */
 const searchPhone=()=>{
     const searchField= document.getElementById("search-field");
     const searchText= searchField.value;
     searchField.value="";
    fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`)
    .then(res=>res.json())
-   .then(data=>displaySearchResult(data.data))
+   .then(data=>displaySearchResult(data.data.slice(0,20)))
     }
+    /* ------------------display search result------------------------ */
     const displaySearchResult=data=>{
-      console.log(data.length)
+     // console.log(data.slice(0,20));
       const searchResult=document.getElementById("search-result");
       searchResult.textContent=""
+      /*------------------------------- validation-------------------------- */
       if(data.length== 0){
         const divErrorContainer= document.getElementById("error-result");
         const divE=document.createElement("div");
-        divE.innerHTML=`<h4>No Result Found</h4>`
+        divE.innerHTML=`<h4>"No result found please try again and give valid input"</h4>`
         divErrorContainer.appendChild(divE);
        }
        else{
@@ -35,6 +38,7 @@ const searchPhone=()=>{
       });
     };
   }
+  /* ------------------------single phone details----------------------------- */
  const loadPhoneDetail=phoneNameId=>{
    //console.log(phoneNameId)
    fetch(`https://openapi.programming-hero.com/api/phone/${phoneNameId}`)
@@ -42,7 +46,6 @@ const searchPhone=()=>{
    .then(data=>displayPhoneDetail(data.data))
  }
 const displayPhoneDetail=phone=>{
-  //console.log(phone.others.USB)
   const phoneDetails= document.getElementById("phone-details");
   phoneDetails.textContent=""
   const div=document.createElement("div");
@@ -50,7 +53,7 @@ const displayPhoneDetail=phone=>{
   div.classList.add("w-50");
   div.classList.add("mx-auto");
   div.innerHTML=` <img class="w-50 p-3 mx-auto" src="${phone.image}" class="card-img-top" alt="...">
-  <div class="card-body">
+  <div class="card-body text-center">
     <h3 class="card-title">${phone.name}</h3>
     <p>${phone.releaseDate ? phone.releaseDate:'No releasedate found'}</p>
   </div>
