@@ -7,25 +7,30 @@ const searchPhone=()=>{
    .then(data=>displaySearchResult(data.data))
 }
     const displaySearchResult=data=>{
-     // console.log(data)
-    const searchResult=document.getElementById("search-result");
-    searchResult.textContent=""
-     data.forEach(data=>{
-      //console.log(data.slug);
-      //console.log(data);
-       const div=document.createElement("div");
-       div.classList.add('col');
-       div.innerHTML=`<div class="card h-100 p-2 ">
-       <img class="w-50 mx-auto" src="${data.image}" class="card-img-top" alt="...">
-       <div class="card-body">
-         <h3 class="card-title">${data.phone_name}</h3>
-         <p class="card-text">Brand: ${ data.phone_name}</p>
-         <button onclick="loadPhoneDetail('${data.slug}')" class="bg-success border-0 px-5 py-3 text-white fw-bolder rounded-pill" >Details</button>
+      console.log(data.length)
+      const searchResult=document.getElementById("search-result");
+      // if(){
+      //   const divErrorContainer= document.getElementById("error-result");
+      //   const divE=document.createElement("div");
+      //   divE.innerHTML=`<h4>Result Not Found</h4>`
+      //   divErrorContainer.appendChild(divE);
+      //  }
+      searchResult.textContent=""
+       data.forEach(data=>{
+        //console.log(data);
+         const div=document.createElement("div");
+         div.classList.add('col');
+         div.innerHTML=`<div class="card h-100 p-2 ">
+         <img class="w-50 mx-auto" src="${data.image}" class="card-img-top" alt="...">
+         <div class="card-body">
+           <h3 class="card-title">${data.phone_name}</h3>
+           <p class="card-text">Brand: ${ data.phone_name}</p>
+           <button onclick="loadPhoneDetail('${data.slug}')" class="bg-success border-0 px-5 py-3 text-white fw-bolder rounded-pill" >Details</button>
+           </div>
          </div>
-       </div>
-     </div>`
-      searchResult.appendChild(div);
-  });
+       </div>`
+        searchResult.appendChild(div);
+    });
 };
  const loadPhoneDetail=phoneNameId=>{
    //console.log(phoneNameId)
@@ -50,7 +55,9 @@ const displayPhoneDetail=phone=>{
   <p><span class="fw-bolder">DisplaySize:</span> ${phone.mainFeatures.displaySize}</p>
   <p><span class="fw-bolder">ChipSet:</span> ${phone.mainFeatures.chipSet}</p>
   <p><span class="fw-bolder">Memory:</span> ${phone.mainFeatures.memory}</p>
+  <br>
    <p><span class="fw-bolder">Sensors:</span> ${phone.mainFeatures.sensors}</p>
+   <br>
    <p><span class="fw-bolder">WLAN:</span> ${phone.others.WLAN}</p>
    <p><span class="fw-bolder">Bluetooth:</span> ${phone.others.Bluetooth}</p>
    <p><span class="fw-bolder">GPS:</span> ${phone.others.GPS}</p>
