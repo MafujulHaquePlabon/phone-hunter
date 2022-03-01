@@ -1,7 +1,14 @@
 const searchPhone=()=>{
     const searchField= document.getElementById("search-field");
     const searchText= searchField.value;
+    // if(searchText== ""){
+    //   const divErrorContainer= document.getElementById("error-result");
+    //   const divE=document.createElement("div");
+    //   divE.innerHTML=`<h4>Result Not Found</h4>`
+    //   divErrorContainer.appendChild(divE);
+    //  }
     searchField.value="";
+    
    fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`)
    .then(res=>res.json())
    .then(data=>displaySearchResult(data.data))
@@ -9,29 +16,34 @@ const searchPhone=()=>{
     const displaySearchResult=data=>{
       console.log(data.length)
       const searchResult=document.getElementById("search-result");
-      // if(){
-      //   const divErrorContainer= document.getElementById("error-result");
-      //   const divE=document.createElement("div");
-      //   divE.innerHTML=`<h4>Result Not Found</h4>`
-      //   divErrorContainer.appendChild(divE);
-      //  }
       searchResult.textContent=""
-       data.forEach(data=>{
-        //console.log(data);
-         const div=document.createElement("div");
-         div.classList.add('col');
-         div.innerHTML=`<div class="card h-100 p-2 ">
-         <img class="w-50 mx-auto" src="${data.image}" class="card-img-top" alt="...">
-         <div class="card-body">
-           <h3 class="card-title">${data.phone_name}</h3>
-           <p class="card-text">Brand: ${ data.phone_name}</p>
-           <button onclick="loadPhoneDetail('${data.slug}')" class="bg-success border-0 px-5 py-3 text-white fw-bolder rounded-pill" >Details</button>
+      if(data.length== 0){
+        const divErrorContainer= document.getElementById("error-result");
+        const divE=document.createElement("div");
+        divE.innerHTML=`<h4>No Result Found</h4>`
+        divErrorContainer.appendChild(divE);
+       }
+       else{
+        data.forEach(data=>{
+          //console.log(data);
+          document.getElementById("error-result").textContent=''
+           const div=document.createElement("div");
+           div.classList.add('col');
+           div.innerHTML=`<div class="card h-100 p-2 ">
+           <img class="w-50 mx-auto" src="${data.image}" class="card-img-top" alt="...">
+           <div class="card-body">
+             <h3 class="card-title">${data.phone_name}</h3>
+             <p class="card-text">Brand: ${ data.phone_name}</p>
+             <button onclick="loadPhoneDetail('${data.slug}')" class="bg-success border-0 px-5 py-3 text-white fw-bolder rounded-pill" >Details</button>
+             </div>
            </div>
-         </div>
-       </div>`
-        searchResult.appendChild(div);
-    });
-};
+         </div>`
+          searchResult.appendChild(div);
+      });
+     
+  };
+       }
+       
  const loadPhoneDetail=phoneNameId=>{
    //console.log(phoneNameId)
    fetch(`https://openapi.programming-hero.com/api/phone/${phoneNameId}`)
@@ -41,6 +53,7 @@ const searchPhone=()=>{
 const displayPhoneDetail=phone=>{
   console.log(phone.others.USB)
   const phoneDetails= document.getElementById("phone-details");
+  phoneDetails.textContent=""
   const div=document.createElement("div");
   div.classList.add("card");
   div.classList.add("w-50");
