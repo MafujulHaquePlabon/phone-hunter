@@ -9,6 +9,7 @@ const searchPhone=()=>{
     const displaySearchResult=data=>{
      // console.log(data)
     const searchResult=document.getElementById("search-result");
+    searchResult.textContent=""
      data.forEach(data=>{
       //console.log(data.slug);
       //console.log(data);
